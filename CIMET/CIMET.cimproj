@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- CIM Project xml -->
+<cim_project>
+	<name>CIMET</name>
+	<profile_source>Terminal.legacy-rdfs</profile_source>
+	<document>
+		<source_name>modelLabs_Terminal.xml</source_name>
+	</document>
+</cim_project>
