@@ -10,10 +10,10 @@ namespace FTN.Common
 		MASK_TYPE							= unchecked((short)0xFFFF),
         
         TERMINAL                            = 0x0001,
-        CONNECTIVITY_NODE                   = 0x0002,
+        CONNECTIVITYNODE                    = 0x0002,
         CLAMP                               = 0x0003,
-        RECTIFIER_INVERTER                  = 0x0004,
-        ACLINE_SEGMENT                      = 0x0005,
+        RECTIFIERINVERTER                   = 0x0004,
+        ACLINESEGMENT                       = 0x0005,
 	}
 
     [Flags]
@@ -48,7 +48,7 @@ namespace FTN.Common
         CLAMP_LENGTHFROMTERMINAL            = 0x1111200000030105,
         CLAMP_ACLINESEGMENT                 = 0x1111200000030209,
 
-        RECTIFIER_INVERTER                  = 0x1111300000040000,
+        RECTIFIERINVERTER                   = 0x1111300000040000,
 
         ACLINESEGMENT                       = 0x1111110000050000,
         ACLINESEGMENT_CLAMP                 = 0x1111110000050119,

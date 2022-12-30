@@ -868,7 +868,7 @@ namespace FTN.Common
 		{
             typeIdsInInsertOrder.Add(ModelCode.ACLINESEGMENT);
 			typeIdsInInsertOrder.Add(ModelCode.CLAMP);
-            typeIdsInInsertOrder.Add(ModelCode.RECTIFIER_INVERTER);
+            typeIdsInInsertOrder.Add(ModelCode.RECTIFIERINVERTER);
             typeIdsInInsertOrder.Add(ModelCode.CONNECTIVITYNODE);
 			typeIdsInInsertOrder.Add(ModelCode.TERMINAL);		
 		}
