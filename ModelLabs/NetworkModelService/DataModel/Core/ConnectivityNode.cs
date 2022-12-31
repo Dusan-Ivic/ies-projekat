@@ -1,21 +1,18 @@
-﻿using System;
+﻿using FTN.Common;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
-using System.Xml;
-using FTN.Common;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
-	public class ConductingEquipment : Equipment
-	{
+    public class ConnectivityNode : IdentifiedObject
+    {
         private List<long> terminals = new List<long>();
 
-        public ConductingEquipment(long globalId) : base(globalId) 
-		{
-		}
+        public ConnectivityNode(long globalId) : base(globalId)
+        {
+        }
 
         public List<long> Terminals
         {
@@ -24,60 +21,61 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         }
 
         public override bool Equals(object obj)
-		{
-			if (base.Equals(obj))
-			{
-                ConductingEquipment x = (ConductingEquipment)obj;
+        {
+            if (base.Equals(obj))
+            {
+                ConnectivityNode x = (ConnectivityNode)obj;
                 return (CompareHelper.CompareLists(x.terminals, this.terminals, true));
             }
-			else
-			{
-				return false;
-			}
-		}
+            else
+            {
+                return false;
+            }
+        }
 
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
-		#region IAccess implementation
+        #region IAccess implementation
 
-		public override bool HasProperty(ModelCode property)
-		{
-			switch (property)
-			{
-                case ModelCode.CONDEQ_TERMINALS:
+        public override bool HasProperty(ModelCode t)
+        {
+            switch (t)
+            {
+                case ModelCode.CONNECTIVITYNODE_TERMINALS:
                     return true;
 
                 default:
-					return base.HasProperty(property);
-			}
-		}
+                    return base.HasProperty(t);
+            }
+        }
 
-		public override void GetProperty(Property prop)
-		{
-			switch (prop.Id)
-			{
-                case ModelCode.CONDEQ_TERMINALS:
+        public override void GetProperty(Property prop)
+        {
+            switch (prop.Id)
+            {
+
+                case ModelCode.CONNECTIVITYNODE_TERMINALS:
                     prop.SetValue(terminals);
                     break;
 
                 default:
-					base.GetProperty(prop);
-					break;
-			}
-		}
+                    base.GetProperty(prop);
+                    break;
+            }
+        }
 
-		public override void SetProperty(Property property)
-		{
-			switch (property.Id)
-			{
-				default:
-					base.SetProperty(property);
-					break;
-			}
-		}
+        public override void SetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                default:
+                    base.SetProperty(property);
+                    break;
+            }
+        }
 
         #endregion IAccess implementation
 
@@ -95,7 +93,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             if (terminals != null && terminals.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
             {
-                references[ModelCode.CONDEQ_TERMINALS] = terminals.GetRange(0, terminals.Count);
+                references[ModelCode.CONNECTIVITYNODE_TERMINALS] = terminals.GetRange(0, terminals.Count);
             }
 
             base.GetReferences(references, refType);
@@ -105,7 +103,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (referenceId)
             {
-                case ModelCode.CONDEQ_TERMINALS:
+                case ModelCode.CONNECTIVITYNODE_TERMINALS:
                     terminals.Add(globalId);
                     break;
 
@@ -119,7 +117,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (referenceId)
             {
-                case ModelCode.CONDEQ_TERMINALS:
+                case ModelCode.CONNECTIVITYNODE_TERMINALS:
 
                     if (terminals.Contains(globalId))
                     {

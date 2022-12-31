@@ -28,21 +28,21 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 		/// Global id of the identified object (SystemId - 4 nibls, DMSType - 4 nibls, FragmentId - 8 nibls)
 		/// </summary>
 		private long globalId;
-		
-		/// <summary>
-		/// Name of identified object
-		/// </summary>		
-		private string name = string.Empty;
+
+        /// <summary>
+        /// Alias of identified object
+        /// </summary>		
+        private string name = string.Empty;
+
+        /// <summary>
+        /// Alias name of identified object
+        /// </summary>		
+        private string aliasName = string.Empty;
 
 		/// <summary>
 		/// Mrid (source) id of identified object
 		/// </summary>		
 		private string mrid = string.Empty;
-
-		/// <summary>
-		/// Description of identified object
-		/// </summary>		
-		private string description = string.Empty;
 		
 		/// <summary>
 		/// Initializes a new instance of the IdentifiedObject class.
@@ -85,22 +85,29 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 			}
 		}
 
-		/// <summary>
-		/// Gets or sets mrid of the entity (identified object).
+        /// <summary>
+		/// Gets or sets alias name of the entity (identified object).
 		/// </summary>			
-		public string Mrid
+		public string AliasName
+        {
+            get
+            {
+                return aliasName;
+            }
+
+            set
+            {
+                aliasName = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets mrid of the entity (identified object).
+        /// </summary>			
+        public string Mrid
 		{
 			get { return mrid; }
 			set { mrid = value; }
-		}
-
-		/// <summary>
-		/// Gets or sets description of the entity (identified object).
-		/// </summary>			
-		public string Description
-		{
-			get { return description; }
-			set { description = value; }
 		}		
 
 		public static bool operator ==(IdentifiedObject x, IdentifiedObject y)
@@ -134,7 +141,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 			{
 				IdentifiedObject io = (IdentifiedObject)x;
 				return ((io.GlobalId == this.GlobalId) && (io.name == this.name) && (io.mrid == this.mrid) &&
-						(io.description == this.description));
+						(io.aliasName == this.aliasName));
 			}
 		}
 		
@@ -151,7 +158,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 			{
 				case ModelCode.IDOBJ_GID:				
 				case ModelCode.IDOBJ_NAME:
-				case ModelCode.IDOBJ_DESCRIPTION:
+				case ModelCode.IDOBJ_ALIAS:
 				case ModelCode.IDOBJ_MRID:
 					return true;
 
@@ -176,8 +183,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 					property.SetValue(mrid);
 					break;
 
-                case ModelCode.IDOBJ_DESCRIPTION:
-                    property.SetValue(description);
+                case ModelCode.IDOBJ_ALIAS:
+                    property.SetValue(aliasName);
                     break;
 			
 				default:
@@ -195,8 +202,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 					name = property.AsString();					
 					break;
 
-				case ModelCode.IDOBJ_DESCRIPTION:
-					description = property.AsString();					
+				case ModelCode.IDOBJ_ALIAS:
+					aliasName = property.AsString();					
 					break;
 
 				case ModelCode.IDOBJ_MRID:					
