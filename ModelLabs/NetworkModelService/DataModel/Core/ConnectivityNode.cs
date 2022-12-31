@@ -103,7 +103,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (referenceId)
             {
-                case ModelCode.CONNECTIVITYNODE_TERMINALS:
+                case ModelCode.TERMINAL_NODE:
                     terminals.Add(globalId);
                     break;
 
@@ -117,7 +117,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (referenceId)
             {
-                case ModelCode.CONNECTIVITYNODE_TERMINALS:
+                case ModelCode.TERMINAL_NODE:
 
                     if (terminals.Contains(globalId))
                     {

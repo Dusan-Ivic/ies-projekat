@@ -104,7 +104,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
         {
             switch (referenceId)
             {
-                case ModelCode.ACLINESEGMENT_CLAMP:
+                case ModelCode.CLAMP_ACLINESEGMENT:
                     clamp.Add(globalId);
                     break;
 
@@ -118,7 +118,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
         {
             switch (referenceId)
             {
-                case ModelCode.ACLINESEGMENT_CLAMP:
+                case ModelCode.CLAMP_ACLINESEGMENT:
 
                     if (clamp.Contains(globalId))
                     {
