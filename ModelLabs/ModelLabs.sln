@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NMSTestClient", "NetworkMod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkModelServiceSelfHost", "NetworkModelService\ServiceHost\NetworkModelServiceSelfHost\NetworkModelServiceSelfHost.csproj", "{E112FFCC-BD88-4056-99E1-0991A0E82588}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkModelClient", "NetworkModelClient\NetworkModelClient.csproj", "{5C71084F-9222-4152-A676-0C9B372F1AC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -122,6 +124,14 @@ Global
 		{E112FFCC-BD88-4056-99E1-0991A0E82588}.Release|x64.Build.0 = Release|x64
 		{E112FFCC-BD88-4056-99E1-0991A0E82588}.Release|x86.ActiveCfg = Release|x86
 		{E112FFCC-BD88-4056-99E1-0991A0E82588}.Release|x86.Build.0 = Release|x86
+		{5C71084F-9222-4152-A676-0C9B372F1AC0}.Debug|x64.ActiveCfg = Debug|x64
+		{5C71084F-9222-4152-A676-0C9B372F1AC0}.Debug|x64.Build.0 = Debug|x64
+		{5C71084F-9222-4152-A676-0C9B372F1AC0}.Debug|x86.ActiveCfg = Debug|x86
+		{5C71084F-9222-4152-A676-0C9B372F1AC0}.Debug|x86.Build.0 = Debug|x86
+		{5C71084F-9222-4152-A676-0C9B372F1AC0}.Release|x64.ActiveCfg = Release|x64
+		{5C71084F-9222-4152-A676-0C9B372F1AC0}.Release|x64.Build.0 = Release|x64
+		{5C71084F-9222-4152-A676-0C9B372F1AC0}.Release|x86.ActiveCfg = Release|x86
+		{5C71084F-9222-4152-A676-0C9B372F1AC0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
