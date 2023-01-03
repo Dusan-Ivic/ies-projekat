@@ -4,9 +4,69 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NetworkModelClient"
+		xmlns:converters="clr-namespace:NetworkModelClient.Converters"
         mc:Ignorable="d"
         Title="NetworkModelClient" Height="450" Width="800" ResizeMode="NoResize">
-    <Grid>
-		<TextBlock Text="NetworkModelClient" />
+	<Window.Resources>
+		<converters:PropertyValueConverter  x:Key="propertyValueConverter"></converters:PropertyValueConverter>
+		<converters:ResourceTitleConverter  x:Key="resourceTitleConverter"></converters:ResourceTitleConverter>
+	</Window.Resources>
+	<Grid Margin="15">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="3*" />
+		</Grid.ColumnDefinitions>
+
+		<StackPanel Grid.Column="0">
+			<StackPanel>
+				<Label>Get all resources</Label>
+				<Button
+					x:Name="btnGetAllResources"
+					Click="BtnGetAllResources_Click"
+					Margin="0 5 0 0">
+					Get
+				</Button>
+			</StackPanel>
+		</StackPanel>
+
+		<ListView
+			Grid.Column="1"
+			x:Name="listViewResources"
+			Margin="15 0 0 0">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<Expander
+						Header="{Binding Path=., Converter={StaticResource resourceTitleConverter}}">
+						<StackPanel x:Name="expanderStackPanel">
+							<TextBlock Text="Properties" />
+							<DataGrid
+								ItemsSource="{Binding Properties}"
+								Width="540"
+								AutoGenerateColumns="False"
+								IsReadOnly="True"
+								IsHitTestVisible="False">
+								<DataGrid.Columns>
+									<DataGridTextColumn
+										Header="ID"
+										Binding="{Binding Id}"
+										Width="*"
+										IsReadOnly="True" />
+									<DataGridTextColumn
+										Header="Value"
+										Binding="{Binding Path=., Converter={StaticResource propertyValueConverter}}"
+										Width="150"
+										IsReadOnly="True" />
+									<DataGridTextColumn
+										Header="Type"
+										Binding="{Binding Type}"
+										Width="150"
+										IsReadOnly="True" />
+								</DataGrid.Columns>
+							</DataGrid>
+						</StackPanel>
+					</Expander>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
 	</Grid>
 </Window>

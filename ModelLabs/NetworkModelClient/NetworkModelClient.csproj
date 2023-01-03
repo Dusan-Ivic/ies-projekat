@@ -105,6 +105,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ClientGDA.cs" />
+    <Compile Include="Converters\PropertyValueConverter.cs" />
+    <Compile Include="Converters\ResourceTitleConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FTN.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,26 @@ namespace NetworkModelClient
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void BtnGetAllResources_Click(object sender, RoutedEventArgs e)
+        {
+            GetAllResources();
+        }
+
+        private void GetAllResources()
+        {
+            try
+            {
+                List<ResourceDescription> resources = clientGDA.GetAllResources();
+                listViewResources.ItemsSource = resources;
+            }
+            catch (Exception ex)
+            {
+                string message = string.Format("GetAllResources failed. {0}", ex.Message);
+                Console.WriteLine(message);
+                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+            }
         }
     }
 }
