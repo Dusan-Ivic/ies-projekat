@@ -10,6 +10,7 @@
 	<Window.Resources>
 		<converters:PropertyValueConverter  x:Key="propertyValueConverter"></converters:PropertyValueConverter>
 		<converters:ResourceTitleConverter  x:Key="resourceTitleConverter"></converters:ResourceTitleConverter>
+		<converters:PropertyTypeConverter  x:Key="propertyTypeConverter"></converters:PropertyTypeConverter>
 	</Window.Resources>
 	<Grid Margin="15">
 		<Grid.ColumnDefinitions>
@@ -59,12 +60,48 @@
 					Margin="0 10 0 0">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<DockPanel Margin="0 3 0 0">
-								<TextBlock Text="{Binding Id}" />
-								<TextBlock
-									Text="{Binding Path=., Converter={StaticResource propertyValueConverter}}"
-									HorizontalAlignment="Right" />
-							</DockPanel>
+							<ContentControl>
+								<ContentControl.Style>
+									<Style TargetType="{x:Type ContentControl}">
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding Path=., Converter={StaticResource propertyTypeConverter}}" Value="Single">
+												<Setter Property="Template">
+													<Setter.Value>
+														<ControlTemplate>
+															<DockPanel Margin="0 10 0 0">
+																<TextBlock Text="{Binding Id}" />
+																<TextBlock
+																	Text="{Binding Path=., Converter={StaticResource propertyValueConverter}}"
+																	HorizontalAlignment="Right" />
+															</DockPanel>
+														</ControlTemplate>
+													</Setter.Value>
+												</Setter>
+											</DataTrigger>
+											<DataTrigger Binding="{Binding Path=., Converter={StaticResource propertyTypeConverter}}" Value="Vector">
+												<Setter Property="Template">
+													<Setter.Value>
+														<ControlTemplate>
+															<DockPanel Margin="0 10 0 0">
+																<TextBlock Text="{Binding Id}" />
+																<ItemsControl
+																	ItemsSource="{Binding Path=., Converter={StaticResource propertyValueConverter}}"
+																	HorizontalAlignment="Right">
+																	<ItemsControl.ItemTemplate>
+																		<DataTemplate>
+																			<TextBlock Text="{Binding Path=.}" />
+																		</DataTemplate>
+																	</ItemsControl.ItemTemplate>
+																</ItemsControl>
+															</DockPanel>
+														</ControlTemplate>
+													</Setter.Value>
+												</Setter>
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</ContentControl.Style>
+							</ContentControl>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
