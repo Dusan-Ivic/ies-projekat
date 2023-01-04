@@ -14,6 +14,12 @@ namespace NetworkModelClient.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             ResourceDescription resourceDescription = (ResourceDescription)value;
+
+            if (resourceDescription == null)
+            {
+                return String.Empty;
+            }
+
             return resourceDescription.GetProperty(ModelCode.IDOBJ_MRID);
         }
 

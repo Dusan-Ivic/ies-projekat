@@ -14,7 +14,8 @@
 	<Grid Margin="15">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="1*" />
-			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="2*" />
+			<ColumnDefinition Width="2*" />
 		</Grid.ColumnDefinitions>
 
 		<StackPanel Grid.Column="0">
@@ -32,41 +33,42 @@
 		<ListView
 			Grid.Column="1"
 			x:Name="listViewResources"
-			Margin="15 0 0 0">
+			Margin="15 0 0 0"
+			SelectionMode="Single"
+			SelectedItem="{Binding SelectedResource}">
 			<ListView.ItemTemplate>
 				<DataTemplate>
-					<Expander
-						Header="{Binding Path=., Converter={StaticResource resourceTitleConverter}}">
-						<StackPanel x:Name="expanderStackPanel">
-							<TextBlock Text="Properties" />
-							<DataGrid
-								ItemsSource="{Binding Properties}"
-								Width="540"
-								AutoGenerateColumns="False"
-								IsReadOnly="True"
-								IsHitTestVisible="False">
-								<DataGrid.Columns>
-									<DataGridTextColumn
-										Header="ID"
-										Binding="{Binding Id}"
-										Width="*"
-										IsReadOnly="True" />
-									<DataGridTextColumn
-										Header="Value"
-										Binding="{Binding Path=., Converter={StaticResource propertyValueConverter}}"
-										Width="150"
-										IsReadOnly="True" />
-									<DataGridTextColumn
-										Header="Type"
-										Binding="{Binding Type}"
-										Width="150"
-										IsReadOnly="True" />
-								</DataGrid.Columns>
-							</DataGrid>
-						</StackPanel>
-					</Expander>
+					<TextBlock
+						Text="{Binding Path=., Converter={StaticResource resourceTitleConverter}}"/>
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
+
+		<Grid
+			Grid.Column="2"
+			Margin="15 0 0 0"
+			Height="400"
+			Background="LightGray">
+			<StackPanel
+				Margin="10">
+				<TextBlock
+					Text="{Binding Path=SelectedResource, Converter={StaticResource resourceTitleConverter}}"
+					HorizontalAlignment="Center"/>
+				<ItemsControl
+					ItemsSource="{Binding SelectedResource.Properties}"
+					Margin="0 10 0 0">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<DockPanel Margin="0 3 0 0">
+								<TextBlock Text="{Binding Id}" />
+								<TextBlock
+									Text="{Binding Path=., Converter={StaticResource propertyValueConverter}}"
+									HorizontalAlignment="Right" />
+							</DockPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</StackPanel>
+		</Grid>
 	</Grid>
 </Window>

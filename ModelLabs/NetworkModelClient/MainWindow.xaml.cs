@@ -1,6 +1,7 @@
 ﻿using FTN.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,25 +20,44 @@ namespace NetworkModelClient
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private ClientGDA clientGDA = new ClientGDA();
+        private ResourceDescription _selectedResource;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public MainWindow()
         {
+            DataContext = this;
             InitializeComponent();
         }
+
+        public ResourceDescription SelectedResource
+        {
+            get { return _selectedResource; }
+            set
+            {
+                _selectedResource = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(SelectedResource)));
+            }
+        }
+
+        #region EventHandlers
 
         private void BtnGetAllResources_Click(object sender, RoutedEventArgs e)
         {
             GetAllResources();
         }
 
+        #endregion EventHandlers
+
         private void GetAllResources()
         {
             try
             {
                 List<ResourceDescription> resources = clientGDA.GetAllResources();
+                SelectedResource = resources.Count > 0 ? resources[0] : null;
                 listViewResources.ItemsSource = resources;
             }
             catch (Exception ex)
