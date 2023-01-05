@@ -9,13 +9,12 @@ using System.Windows.Data;
 
 namespace NetworkModelClient.Converters
 {
-    public class PropertyTypeConverter : IValueConverter
+    public class IsVectorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Property property = (Property)value;
-
-            return (property.GetValue() is System.Collections.IList) ? "Vector" : "Single";
+            return property.GetValue() is System.Collections.IList;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

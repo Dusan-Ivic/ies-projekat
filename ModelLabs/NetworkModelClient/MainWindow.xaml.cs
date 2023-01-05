@@ -50,7 +50,17 @@ namespace NetworkModelClient
             GetAllResources();
         }
 
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            string propertyValue = ((TextBlock)sender).Text;
+            long resourceId = long.Parse(propertyValue);
+
+            GetResource(resourceId);
+        }
+
         #endregion EventHandlers
+
+        #region GDAQueryService
 
         private void GetAllResources()
         {
@@ -67,5 +77,22 @@ namespace NetworkModelClient
                 CommonTrace.WriteTrace(CommonTrace.TraceError, message);
             }
         }
+
+        private void GetResource(long resourceId)
+        {
+            try
+            {
+                ResourceDescription resource = clientGDA.GetResource(resourceId);
+                SelectedResource = resource;
+            }
+            catch (Exception ex)
+            {
+                string message = string.Format("GetResource failed. {0}", ex.Message);
+                Console.WriteLine(message);
+                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+            }
+        }
+
+        #endregion GDAQueryService
     }
 }

@@ -8,9 +8,17 @@
         mc:Ignorable="d"
         Title="NetworkModelClient" Height="450" Width="800" ResizeMode="NoResize">
 	<Window.Resources>
-		<converters:PropertyValueConverter  x:Key="propertyValueConverter"></converters:PropertyValueConverter>
-		<converters:ResourceTitleConverter  x:Key="resourceTitleConverter"></converters:ResourceTitleConverter>
-		<converters:PropertyTypeConverter  x:Key="propertyTypeConverter"></converters:PropertyTypeConverter>
+		<converters:PropertyValueConverter x:Key="propertyValueConverter"></converters:PropertyValueConverter>
+		<converters:ResourceTitleConverter x:Key="resourceTitleConverter"></converters:ResourceTitleConverter>
+		<converters:IsVectorConverter x:Key="isVectorConverter"></converters:IsVectorConverter>
+		<converters:IsReferenceConverter x:Key="isReferenceConverter"></converters:IsReferenceConverter>
+
+		<Style x:Key="ClickableTextBlock" TargetType="{x:Type TextBlock}">
+			<Setter Property="Foreground" Value="DarkBlue" />
+			<Setter Property="Cursor" Value="Hand" />
+			<Setter Property="FontWeight" Value="Bold" />
+			<EventSetter Event="MouseLeftButtonDown" Handler="TextBlock_MouseLeftButtonDown" />
+		</Style>
 	</Window.Resources>
 	<Grid Margin="15">
 		<Grid.ColumnDefinitions>
@@ -64,7 +72,11 @@
 								<ContentControl.Style>
 									<Style TargetType="{x:Type ContentControl}">
 										<Style.Triggers>
-											<DataTrigger Binding="{Binding Path=., Converter={StaticResource propertyTypeConverter}}" Value="Single">
+											<MultiDataTrigger>
+												<MultiDataTrigger.Conditions>
+													<Condition Binding="{Binding Path=., Converter={StaticResource isVectorConverter}}" Value="False" />
+													<Condition Binding="{Binding Path=., Converter={StaticResource isReferenceConverter}}" Value="False" />
+												</MultiDataTrigger.Conditions>
 												<Setter Property="Template">
 													<Setter.Value>
 														<ControlTemplate>
@@ -77,8 +89,31 @@
 														</ControlTemplate>
 													</Setter.Value>
 												</Setter>
-											</DataTrigger>
-											<DataTrigger Binding="{Binding Path=., Converter={StaticResource propertyTypeConverter}}" Value="Vector">
+											</MultiDataTrigger>
+											<MultiDataTrigger>
+												<MultiDataTrigger.Conditions>
+													<Condition Binding="{Binding Path=., Converter={StaticResource isVectorConverter}}" Value="False" />
+													<Condition Binding="{Binding Path=., Converter={StaticResource isReferenceConverter}}" Value="True" />
+												</MultiDataTrigger.Conditions>
+												<Setter Property="Template">
+													<Setter.Value>
+														<ControlTemplate>
+															<DockPanel Margin="0 10 0 0">
+																<TextBlock Text="{Binding Id}" />
+																<TextBlock
+																	Text="{Binding Path=., Converter={StaticResource propertyValueConverter}}"
+																	HorizontalAlignment="Right"
+																	Style="{StaticResource ClickableTextBlock}" />
+															</DockPanel>
+														</ControlTemplate>
+													</Setter.Value>
+												</Setter>
+											</MultiDataTrigger>
+											<MultiDataTrigger>
+												<MultiDataTrigger.Conditions>
+													<Condition Binding="{Binding Path=., Converter={StaticResource isVectorConverter}}" Value="True" />
+													<Condition Binding="{Binding Path=., Converter={StaticResource isReferenceConverter}}" Value="False" />
+												</MultiDataTrigger.Conditions>
 												<Setter Property="Template">
 													<Setter.Value>
 														<ControlTemplate>
@@ -89,7 +124,8 @@
 																	HorizontalAlignment="Right">
 																	<ItemsControl.ItemTemplate>
 																		<DataTemplate>
-																			<TextBlock Text="{Binding Path=.}" />
+																			<TextBlock
+																				Text="{Binding Path=.}" />
 																		</DataTemplate>
 																	</ItemsControl.ItemTemplate>
 																</ItemsControl>
@@ -97,7 +133,33 @@
 														</ControlTemplate>
 													</Setter.Value>
 												</Setter>
-											</DataTrigger>
+											</MultiDataTrigger>
+											<MultiDataTrigger>
+												<MultiDataTrigger.Conditions>
+													<Condition Binding="{Binding Path=., Converter={StaticResource isVectorConverter}}" Value="True" />
+													<Condition Binding="{Binding Path=., Converter={StaticResource isReferenceConverter}}" Value="True" />
+												</MultiDataTrigger.Conditions>
+												<Setter Property="Template">
+													<Setter.Value>
+														<ControlTemplate>
+															<DockPanel Margin="0 10 0 0">
+																<TextBlock Text="{Binding Id}" />
+																<ItemsControl
+																	ItemsSource="{Binding Path=., Converter={StaticResource propertyValueConverter}}"
+																	HorizontalAlignment="Right">
+																	<ItemsControl.ItemTemplate>
+																		<DataTemplate>
+																			<TextBlock
+																				Text="{Binding Path=.}"
+																				Style="{StaticResource ClickableTextBlock}" />
+																		</DataTemplate>
+																	</ItemsControl.ItemTemplate>
+																</ItemsControl>
+															</DockPanel>
+														</ControlTemplate>
+													</Setter.Value>
+												</Setter>
+											</MultiDataTrigger>
 										</Style.Triggers>
 									</Style>
 								</ContentControl.Style>

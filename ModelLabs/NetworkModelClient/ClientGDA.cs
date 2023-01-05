@@ -97,6 +97,37 @@ namespace NetworkModelClient
             return resources;
         }
 
+        public ResourceDescription GetResource(long resourceId)
+        {
+            string message = "GetResource method started";
+            Console.WriteLine(message);
+            CommonTrace.WriteTrace(CommonTrace.TraceInfo, message);
+
+            ResourceDescription resource = null;
+
+            try
+            {
+                short type = ModelCodeHelper.ExtractTypeFromGlobalId(resourceId);
+                List<ModelCode> properties = modelResourcesDesc.GetAllPropertyIds((DMSType)type);
+
+                resource = GdaQueryProxy.GetValues(resourceId, properties);
+
+                message = "GetResource method successfully ended";
+                Console.WriteLine(message);
+                CommonTrace.WriteTrace(CommonTrace.TraceInfo, message);
+            }
+            catch (Exception e)
+            {
+                message = $"GetResource method failed: {e.Message}";
+                Console.WriteLine(message);
+                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+
+                throw;
+            }
+
+            return resource;
+        }
+
         #endregion GDAQueryService
 
         public void Dispose()
