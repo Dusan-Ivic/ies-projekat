@@ -31,6 +31,7 @@ namespace NetworkModelClient
         {
             DataContext = this;
             InitializeComponent();
+            LoadDMSTypes();
         }
 
         public ResourceDescription SelectedResource
@@ -56,6 +57,14 @@ namespace NetworkModelClient
             long resourceId = long.Parse(propertyValue);
 
             GetResource(resourceId);
+        }
+
+        private void BtnGetResourcesOfType_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmbTypes.SelectedItem != null)
+            {
+                GetResourcesOfType((DMSType)cmbTypes.SelectedItem);
+            }
         }
 
         #endregion EventHandlers
@@ -91,6 +100,28 @@ namespace NetworkModelClient
                 Console.WriteLine(message);
                 CommonTrace.WriteTrace(CommonTrace.TraceError, message);
             }
+        }
+
+        private void GetResourcesOfType(DMSType type)
+        {
+            try
+            {
+                List<ResourceDescription> resources = clientGDA.GetResourcesOfType(type);
+                SelectedResource = resources.Count > 0 ? resources[0] : null;
+                listViewResources.ItemsSource = resources;
+            }
+            catch (Exception ex)
+            {
+                string message = string.Format("GetResourcesOfType failed. {0}", ex.Message);
+                Console.WriteLine(message);
+                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+            }
+        }
+
+        private void LoadDMSTypes()
+        {
+            List<DMSType> types = clientGDA.GetDMSTypes();
+            cmbTypes.ItemsSource = types;
         }
 
         #endregion GDAQueryService

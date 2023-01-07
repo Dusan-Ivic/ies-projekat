@@ -128,6 +128,64 @@ namespace NetworkModelClient
             return resource;
         }
 
+        public List<ResourceDescription> GetResourcesOfType(DMSType type)
+        {
+            string message = "GetResourcesOfType method started";
+            Console.WriteLine(message);
+            CommonTrace.WriteTrace(CommonTrace.TraceInfo, message);
+
+            List<ResourceDescription> resources = new List<ResourceDescription>();
+
+            List<ModelCode> properties = new List<ModelCode>();
+
+            int iteratorId = 0;
+            int numberOfResources = 1000;
+
+            try
+            {
+                properties = modelResourcesDesc.GetAllPropertyIds(type);
+
+                iteratorId = GdaQueryProxy.GetExtentValues(modelResourcesDesc.GetModelCodeFromType(type), properties);
+                int count = GdaQueryProxy.IteratorResourcesLeft(iteratorId);
+
+                while (count > 0)
+                {
+                    List<ResourceDescription> rds = GdaQueryProxy.IteratorNext(numberOfResources, iteratorId);
+
+                    for (int i = 0; i < rds.Count; i++)
+                    {
+                        resources.Add(rds[i]);
+                    }
+
+                    count = GdaQueryProxy.IteratorResourcesLeft(iteratorId);
+                }
+
+                GdaQueryProxy.IteratorClose(iteratorId);
+
+                message = "GetResourcesOfType method successfully ended";
+                Console.WriteLine(message);
+                CommonTrace.WriteTrace(CommonTrace.TraceInfo, message);
+            }
+
+            catch (Exception e)
+            {
+                message = $"GetResourcesOfType method failed: {e.Message}";
+                Console.WriteLine(message);
+                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+
+                throw;
+            }
+
+            return resources;
+        }
+
+        public List<DMSType> GetDMSTypes()
+        {
+            List<DMSType> types = modelResourcesDesc.AllDMSTypes.ToList();
+            types.Remove(DMSType.MASK_TYPE);
+            return types;
+        }
+
         #endregion GDAQueryService
 
         public void Dispose()

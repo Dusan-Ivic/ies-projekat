@@ -37,6 +37,17 @@
 					Get
 				</Button>
 			</StackPanel>
+
+			<StackPanel>
+				<Label>Get resources of type</Label>
+				<ComboBox x:Name="cmbTypes" />
+				<Button
+					x:Name="btnGetResourcesOfType"
+					Click="BtnGetResourcesOfType_Click"
+					Margin="0 5 0 0">
+					Get
+				</Button>
+			</StackPanel>
 		</StackPanel>
 
 		<ListView
