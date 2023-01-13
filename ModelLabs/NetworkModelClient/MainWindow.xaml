@@ -22,9 +22,9 @@
 	</Window.Resources>
 	<Grid Margin="15">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="1*" />
-			<ColumnDefinition Width="2*" />
-			<ColumnDefinition Width="2*" />
+			<ColumnDefinition Width="1.5*" />
+			<ColumnDefinition Width="2.5*" />
+			<ColumnDefinition Width="3*" />
 		</Grid.ColumnDefinitions>
 
 		<StackPanel Grid.Column="0">
@@ -44,6 +44,17 @@
 				<Button
 					x:Name="btnGetResourcesOfType"
 					Click="BtnGetResourcesOfType_Click"
+					Margin="0 5 0 0">
+					Get
+				</Button>
+			</StackPanel>
+
+			<StackPanel>
+				<Label>Get resources by association</Label>
+				<ComboBox x:Name="cmbAssociations" />
+				<Button
+					x:Name="btnGetResourcesByAssociation"
+					Click="BtnGetResourcesByAssociation_Click"
 					Margin="0 5 0 0">
 					Get
 				</Button>

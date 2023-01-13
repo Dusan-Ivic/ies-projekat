@@ -179,11 +179,68 @@ namespace NetworkModelClient
             return resources;
         }
 
+        public List<ResourceDescription> GetResourcesByAssociation(long sourceGlobalId, Association association)
+        {
+            string message = "GetResourcesByAssociation method started.";
+            Console.WriteLine(message);
+            CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+
+            List<ResourceDescription> resources = new List<ResourceDescription>();
+            
+            int numberOfResources = 2;
+
+            try
+            {
+                List<ModelCode> properties = modelResourcesDesc.GetAllPropertyIds(association.Type);
+
+                int iteratorId = GdaQueryProxy.GetRelatedValues(sourceGlobalId, properties, association);
+                int count = GdaQueryProxy.IteratorResourcesLeft(iteratorId);
+
+                while (count > 0)
+                {
+                    List<ResourceDescription> rds = GdaQueryProxy.IteratorNext(numberOfResources, iteratorId);
+
+                    for (int i = 0; i < rds.Count; i++)
+                    {
+                        resources.Add(rds[i]);
+                    }
+
+                    count = GdaQueryProxy.IteratorResourcesLeft(iteratorId);
+                }
+
+                GdaQueryProxy.IteratorClose(iteratorId);
+
+                message = "GetResourcesByAssociation method successfully finished.";
+                Console.WriteLine(message);
+                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+            }
+            catch (Exception e)
+            {
+                message = string.Format("GetResourcesByAssociation method failed for sourceGlobalId = {0} and association (propertyId = {1}, type = {2}). Reason: {3}", sourceGlobalId, association.PropertyId, association.Type, e.Message);
+                Console.WriteLine(message);
+                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+            }
+
+            return resources;
+        }
+
         public List<DMSType> GetDMSTypes()
         {
             List<DMSType> types = modelResourcesDesc.AllDMSTypes.ToList();
             types.Remove(DMSType.MASK_TYPE);
             return types;
+        }
+
+        public List<ModelCode> GetProperties(long resourceId)
+        {
+            short type = ModelCodeHelper.ExtractTypeFromGlobalId(resourceId);
+            List<ModelCode> properties = modelResourcesDesc.GetAllPropertyIds((DMSType)type);
+            List<ModelCode> notSettablePropertyIds = modelResourcesDesc.NotSettablePropertyIds.ToList();
+
+            properties.RemoveAll(prop => !notSettablePropertyIds.Contains(prop));
+            properties.Remove(ModelCode.IDOBJ_GID);
+
+            return properties;
         }
 
         #endregion GDAQueryService

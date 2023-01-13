@@ -41,6 +41,7 @@ namespace NetworkModelClient
             {
                 _selectedResource = value;
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(SelectedResource)));
+                LoadAssociations(_selectedResource.Id);
             }
         }
 
@@ -64,6 +65,38 @@ namespace NetworkModelClient
             if (cmbTypes.SelectedItem != null)
             {
                 GetResourcesOfType((DMSType)cmbTypes.SelectedItem);
+            }
+        }
+
+        private void BtnGetResourcesByAssociation_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedResource != null && cmbAssociations.SelectedItem != null)
+            {
+                ModelCode selectedPropertyId = (ModelCode)cmbAssociations.SelectedItem;
+                ModelCode resourceType = 0;
+
+                switch (selectedPropertyId)
+                {
+                    case ModelCode.CONNECTIVITYNODE_TERMINALS:
+                        resourceType = ModelCode.TERMINAL;
+                        break;
+                    case ModelCode.CONDEQ_TERMINALS:
+                        resourceType = ModelCode.TERMINAL;
+                        break;
+                    case ModelCode.ACLINESEGMENT_CLAMP:
+                        resourceType = ModelCode.CLAMP;
+                        break;
+                    default:
+                        break;
+                }
+
+                Association association = new Association
+                {
+                    PropertyId = selectedPropertyId,
+                    Type = resourceType
+                };
+
+                GetResourcesByAssociation(SelectedResource.Id, association);
             }
         }
 
@@ -118,10 +151,32 @@ namespace NetworkModelClient
             }
         }
 
+        private void GetResourcesByAssociation(long resourceId, Association association)
+        {
+            try
+            {
+                List<ResourceDescription> resources = clientGDA.GetResourcesByAssociation(resourceId, association);
+                SelectedResource = resources.Count > 0 ? resources[0] : null;
+                listViewResources.ItemsSource = resources;
+            }
+            catch (Exception ex)
+            {
+                string message = string.Format("GetResourcesByAssociation failed. {0}", ex.Message);
+                Console.WriteLine(message);
+                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+            }
+        }
+
         private void LoadDMSTypes()
         {
             List<DMSType> types = clientGDA.GetDMSTypes();
             cmbTypes.ItemsSource = types;
+        }
+
+        private void LoadAssociations(long resourceId)
+        {
+            List<ModelCode> properties = clientGDA.GetProperties(resourceId);
+            cmbAssociations.ItemsSource = properties;
         }
 
         #endregion GDAQueryService
